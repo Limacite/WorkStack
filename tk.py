@@ -1,7 +1,10 @@
 # -*- coding:utf8 -*-
 import tkinter as tk
+import datetime as dt
 
 class InputWindow():
+    kL = ("仕事","趣味")
+
     def packWidget(self):
         self.tFrame.pack()
         self.tEntry.pack()
@@ -16,26 +19,28 @@ class InputWindow():
         self.okB.pack(side="right")  
         self.canB.pack(side="right")
             
-    def __init__(self,pere):
+    def __init__(self,pere,toDay):
         self.pere = pere
-        self.bList = {"t":"","p":"","d":"","k":"","f":"","c":""}
-        self.bList["t"] = tk.StringVar()
-        self.bList["t"].set("")
-        self.bList["p"] = tk.StringVar()
-        self.bList["p"].set("")
-        self.bList["k"] = tk.IntVar()
-        self.bList["k"].set(0)
-        self.bList["c"] = tk.StringVar()
-        self.bList["c"].set("")
+        self.bList = {"title":"","priority":"","date":0,"kind":"","favorit":0,"comment":""}
+        self.bList["title"] = tk.StringVar()
+        self.bList["title"].set("")
+        self.bList["priority"] = tk.StringVar()
+        self.bList["priority"].set("")
+        self.bList["date"] = tk.StringVar()
+        self.bList["date"].set(toDay)
+        self.bList["kind"] = tk.StringVar()
+        self.bList["kind"].set("仕事")
+        self.bList["comment"] = tk.StringVar()
+        self.bList["comment"].set("")
         self.tFrame = tk.LabelFrame(self.pere,text="タイトル",relief="ridge",bd=2)
-        self.tEntry = tk.Entry(self.tFrame,textvariable=self.bList["t"])
+        self.tEntry = tk.Entry(self.tFrame,textvariable=self.bList["title"])
         self.pFrame = tk.LabelFrame(self.pere,text="優先度",relief="ridge",bd=2)
-        self.pEntry = tk.Entry(self.pFrame,textvariable=self.bList["p"])
+        self.pEntry = tk.Entry(self.pFrame,textvariable=self.bList["priority"])
         self.dFrame = tk.LabelFrame(self.pere,text="日時",relief="ridge",bd=2)
-        self.dEntry = tk.Entry(self.dFrame,textvariable=self.bList["d"])
+        self.dEntry = tk.Entry(self.dFrame,textvariable=self.bList["date"])
         self.kFrame = tk.LabelFrame(self.pere,text="種類",relief="ridge",bd=2)
-        self.kB0 = tk.Radiobutton(self.kFrame,text="仕事",value=0,variable=self.bList["k"])
-        self.kB1 = tk.Radiobutton(self.kFrame,text="趣味",value=1,variable=self.bList["k"])
+        self.kB0 = tk.Radiobutton(self.kFrame,text="仕事",value=InputWindow.kL[0],variable=self.bList["kind"])
+        self.kB1 = tk.Radiobutton(self.kFrame,text="趣味",value=InputWindow.kL[1],variable=self.bList["kind"])
         self.cFrame = tk.LabelFrame(self.pere,text="メモ",relief="ridge",bd=2)
         self.cText = tk.Text(self.cFrame,height="5",width="20")
         self.bottomFrame = tk.Frame(self.pere,bd=0,relief="ridge")
@@ -43,7 +48,12 @@ class InputWindow():
         self.canB = tk.Button(self.bottomFrame,text="キャンセル",command=lambda:self.pere.destroy())
 
 def saveTask(bL,win):
-    tsk = {"title":bL["t"].get(),"priority":bL["p"].get(),"date":0,"kind":bL["k"].get(),"favorit":0,"comment":bL["c"].get()}
+    tsk = {"title":bL["title"].get(),
+           "priority":bL["priority"].get(),
+           "date":bL["date"].get(),
+           "kind":bL["kind"],
+           "favorit":0,
+           "comment":bL["comment"].get()}
     taskList.append(tsk)
     renewTsk(taskList)
     win.destroy()
@@ -51,8 +61,7 @@ def saveTask(bL,win):
 def addTskWin(event):
     aTW = tk.Toplevel()
     aTW.title("タスクを追加")
-    aW = InputWindow(aTW)
-    #aw.__init__(aTW)
+    aW = InputWindow(aTW,dt.date.today())
     aW.packWidget()
 
 def pushed(event):
@@ -61,7 +70,6 @@ def pushed(event):
 def txtGen(tsk):
     return (str(tsk["title"]) + "\n" + "date:" + str(tsk["date"]))
 
-#リストからボタンを作る
 def btnLGen(tskL):
     if len(tskL) != 0:
         btn = tk.Button(tskFrame,text=txtGen(tskL[0]))
@@ -69,11 +77,9 @@ def btnLGen(tskL):
     else:
         return []
 
-#要素の順番に応じてcommandをセットする
-#iは必ず0を入れる
 def cmdSet(btnL):
     if len(btnL) != 0:
-        btnL[0].bind("<1>",pushed) #左クリックのコマンドをセット  
+        btnL[0].bind("<1>",pushed)
         cmdSet(btnL[1:])
 
 def btnGen(btnL,tskL):
@@ -97,10 +103,6 @@ def renewTsk(tskL):
     cmdSet(btnList)
     btnGen(btnList,taskList)    
     
-#List[0] = car
-#List[1:] = cdr
-#List[:-1] = 最期の要素を除いたリスト
-
 taskList = []
 buTskL = []
 
