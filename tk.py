@@ -1,7 +1,8 @@
 # -*- coding:utf8 -*-
 import tkinter as tk
 
-def saveTask(tsk,win):
+def saveTask(bL,win):
+    tsk = {"title":bL["t"].get(),"priority":0,"date":0,"kind":0,"favorit":0,"comment":"comment"}
     taskList.append(tsk)
     renewTsk(taskList)
     win.destroy()
@@ -9,7 +10,6 @@ def saveTask(tsk,win):
 def addTskWin(event):
     aTW = tk.Toplevel(root)
     aTW.title("タスクを追加")
-    aTW.geometry("200x300")
     bList = {"t":"","p":"","d":"","k":"","f":"","c":""}
     
     bList["t"] = tk.StringVar()
@@ -37,13 +37,15 @@ def addTskWin(event):
     tk.Radiobutton(kFrame,text="趣味",value=1,variable=bList["k"]).pack(side="left")
     cFrame = tk.LabelFrame(aTW,text="メモ",relief="ridge",bd=2)
     cFrame.pack()
-    tk.Text(cFrame).pack(fill="both")
+    tk.Text(cFrame,height="5",width="20").pack(fill="both")
     #tk.Entry(cFrame,textvariable=bList["c"]).pack(fill="both")
     
-    taskBox = {"title":bList["t"].get("1.0","end"),"priority":0,"date":0,"kind":0,"favorit":0,"comment":"comment"}
     bottomFrame = tk.Frame(aTW,bd=0,relief="ridge")
-    bottomFrame.pack(fill="x")
-    okB = tk.Button(bottomFrame,text="適用",command=lambda:saveTask(taskBox,aTW))
+    bottomFrame.pack(fill="both")
+    
+    #taskBox = {"title":bList["t"].get("1.0","end"),"priority":0,"date":0,"kind":0,"favorit":0,"comment":"comment"}
+    
+    okB = tk.Button(bottomFrame,text="適用",command=lambda:saveTask(bList,aTW))
     canB = tk.Button(bottomFrame,text="キャンセル",command=lambda:aTW.destroy())
     
     okB.pack(side="right")  
