@@ -13,25 +13,40 @@ class InputWindow():
         self.dFrame.pack()
         self.dEntry.pack()
         self.kFrame.pack()
+        self.kB0.pack()
+        self.kB1.pack()
         self.cFrame.pack()
         self.cText.pack(fill="both")
         self.bottomFrame.pack(fill="both")
         self.okB.pack(side="right")  
         self.canB.pack(side="right")
             
-    def __init__(self,pere,toDay):
+    def __init__(self,pere,toDay,tsk={}):
         self.pere = pere
-        self.bList = {"title":"","priority":"","date":0,"kind":"","favorit":0,"comment":""}
-        self.bList["title"] = tk.StringVar()
-        self.bList["title"].set("")
-        self.bList["priority"] = tk.StringVar()
-        self.bList["priority"].set("")
-        self.bList["date"] = tk.StringVar()
-        self.bList["date"].set(toDay)
-        self.bList["kind"] = tk.StringVar()
-        self.bList["kind"].set("仕事")
-        self.bList["comment"] = tk.StringVar()
-        self.bList["comment"].set("")
+        if tsk == {}:
+            #self.bList = {"title":"title","priority":"","date":"","kind":"仕事","favorit":0,"comment":""}
+            self.bList = {}
+            self.bList["title"] = tk.StringVar()
+            self.bList["priority"] = tk.StringVar()
+            self.bList["date"] = tk.StringVar()
+            self.bList["date"].set(toDay.strftime("%Y-%m-%d"))
+            self.bList["kind"] = tk.StringVar()
+            self.bList["kind"].set("仕事")
+            self.bList["comment"] = tk.StringVar()
+        else:
+            self.bList = tsk
+            self.bList["title"] = tk.StringVar()
+            self.bList["title"].set(tsk["title"])
+            self.bList["priority"] = tk.StringVar()
+            self.bList["priority"].set(tsk["priority"])
+            self.bList["date"] = tk.StringVar()
+            self.date = toDay.strftime("%Y-%m-%d")
+            self.bList["date"].set(self.date)
+            self.bList["kind"] = tk.StringVar()
+            self.bList["kind"].set(tsk["kind"])
+            self.bList["comment"] = tk.StringVar()
+            self.bList["comment"].set(tsk["comment"])
+        
         self.tFrame = tk.LabelFrame(self.pere,text="タイトル",relief="ridge",bd=2)
         self.tEntry = tk.Entry(self.tFrame,textvariable=self.bList["title"])
         self.pFrame = tk.LabelFrame(self.pere,text="優先度",relief="ridge",bd=2)
@@ -61,18 +76,16 @@ def saveTask(bL,win):
 def addTskWin(event):
     aTW = tk.Toplevel()
     aTW.title("タスクを追加")
-    aW = InputWindow(aTW,dt.date.today())
+    aW = InputWindow(aTW,dt.datetime.today())
     aW.packWidget()
 
 def pushed(event):
     event.widget["text"] = "pushed"
 
-def txtGen(tsk):
-    return (str(tsk["title"]) + "\n" + "date:" + str(tsk["date"]))
-
 def btnLGen(tskL):
     if len(tskL) != 0:
-        btn = tk.Button(tskFrame,text=txtGen(tskL[0]))
+        btnText = str(tskL[0]["title"]) + "\n" + "date:" + str(tskL[0]["date"])
+        btn = tk.Button(tskFrame,text=btnText)
         return [btn] + btnLGen(tskL[1:])
     else:
         return []
@@ -127,9 +140,9 @@ addBtn.pack(side="right")
 tskFrame = tk.Frame(root,bd=2,relief="ridge")
 tskFrame.pack(fill="both")
 #-------テスト用-----------
-taskBox = {"title":"title","priority":0,"date":181224,"kind":"job","favorit":1,"comment":"comment"}
+taskBox = {"title":"title","priority":0,"date":181224,"kind":"仕事","favorit":1,"comment":"comment"}
 taskList.append(taskBox)
-taskBox = {"title":"ponpon","priority":2,"date":181103,"kind":"hobby","favorit":0,"comment":"cmcmcmc"}
+taskBox = {"title":"ponpon","priority":2,"date":181103,"kind":"趣味","favorit":0,"comment":"cmcmcmc"}
 taskList.append(taskBox)
 #------------------------
 
