@@ -1,6 +1,52 @@
 # -*- coding:utf8 -*-
 import tkinter as tk
 
+class InputWindow():
+    def packWidget():
+        tFrame.pack()
+        tk.Entry(tFrame,textvariable=bList["t"]).pack()
+        pFrame.pack()
+        tk.Entry(pFrame,textvariable=bList["p"]).pack()
+        dFrame.pack()
+        tk.Entry(dFrame,textvariable=bList["d"]).pack()
+        kFrame.pack()
+        cFrame.pack()
+        tk.Entry(cFrame,textvariable=bList["c"]).pack(fill="both")
+        okB.pack(side="right")  
+        canB.pack(side="right")
+        
+    bList = {"t":"","p":"","d":"","k":"","f":"","c":""}
+    
+    #bList["t"] = tk.StringVar()
+    #bList["t"].set("")
+    bKist["p"] = tk.StringVar()
+    bList["p"].set("")
+    bList["k"] = tk.IntVar()
+    bList["k"].set(0)
+    bList["c"] = tk.StringVar()
+    bList["c"].set("")
+    
+    tFrame = tk.LabelFrame(pere,text="タイトル",relief="ridge",bd=2)
+    tEntry = k.Entry(tFrame,textvariable=bList["t"])
+    pFrame = tk.LabelFrame(pere,text="優先度",relief="ridge",bd=2)
+    pEntry = tk.Entry(pFrame,textvariable=bList["p"])
+    dFrame = tk.LabelFrame(pere,text="日時",relief="ridge",bd=2)
+    dEntry = tk.Entry(dFrame,textvariable=bList["d"])
+    kFrame = tk.LabelFrame(pere,text="種類",relief="ridge",bd=2)
+    kB0 = tk.Radiobutton(kFrame,text="仕事",value=0,variable=bList["k"])
+    kB1 = tk.Radiobutton(kFrame,text="趣味",value=1,variable=bList["k"])
+    cFrame = tk.LabelFrame(pere,text="メモ",relief="ridge",bd=2)
+    cText = tk.Text(cFrame,height="5",width="20").pack(fill="both")
+    
+    bottomFrame = tk.Frame(pere,bd=0,relief="ridge")
+    bottomFrame.pack(fill="both")
+    okB = tk.Button(bottomFrame,text="適用",command=lambda:saveTask(bList))
+    canB = tk.Button(bottomFrame,text="キャンセル",command=lambda:pere.destroy())
+    
+    #okB.pack(side="right")  
+    #canB.pack(side="right")
+    #packWidget()
+
 def saveTask(bL,win):
     tsk = {"title":bL["t"].get(),"priority":0,"date":0,"kind":0,"favorit":0,"comment":"comment"}
     taskList.append(tsk)
@@ -8,48 +54,21 @@ def saveTask(bL,win):
     win.destroy()
 
 def addTskWin(event):
-    aTW = tk.Toplevel(root)
+    aTW = tk.Toplevel()
     aTW.title("タスクを追加")
-    bList = {"t":"","p":"","d":"","k":"","f":"","c":""}
+    aW = InputWindow(aTW)
     
-    bList["t"] = tk.StringVar()
-    bList["t"].set("")
-    pBuffer = tk.StringVar()
-    pBuffer.set("")
-    bList["k"] = tk.IntVar()
-    bList["k"].set(0)
-    bList["c"] = tk.StringVar()
-    bList["c"].set("")
-    kL = ("仕事","趣味")
-    
-    tFrame = tk.LabelFrame(aTW,text="タイトル",relief="ridge",bd=2)
-    tFrame.pack()
-    tk.Entry(tFrame,textvariable=bList["t"]).pack()
-    pFrame = tk.LabelFrame(aTW,text="優先度",relief="ridge",bd=2)
-    pFrame.pack()
-    tk.Entry(pFrame,textvariable=bList["p"]).pack()
-    dFrame = tk.LabelFrame(aTW,text="日時",relief="ridge",bd=2)
-    dFrame.pack()
-    tk.Entry(dFrame,textvariable=bList["d"]).pack()
-    kFrame = tk.LabelFrame(aTW,text="種類",relief="ridge",bd=2)
-    kFrame.pack()
-    tk.Radiobutton(kFrame,text="仕事",value=0,variable=bList["k"]).pack(side="left")
-    tk.Radiobutton(kFrame,text="趣味",value=1,variable=bList["k"]).pack(side="left")
-    cFrame = tk.LabelFrame(aTW,text="メモ",relief="ridge",bd=2)
-    cFrame.pack()
-    tk.Text(cFrame,height="5",width="20").pack(fill="both")
-    #tk.Entry(cFrame,textvariable=bList["c"]).pack(fill="both")
-    
-    bottomFrame = tk.Frame(aTW,bd=0,relief="ridge")
-    bottomFrame.pack(fill="both")
-    
-    #taskBox = {"title":bList["t"].get("1.0","end"),"priority":0,"date":0,"kind":0,"favorit":0,"comment":"comment"}
-    
-    okB = tk.Button(bottomFrame,text="適用",command=lambda:saveTask(bList,aTW))
-    canB = tk.Button(bottomFrame,text="キャンセル",command=lambda:aTW.destroy())
-    
-    okB.pack(side="right")  
-    canB.pack(side="right")
+    aW.tFrame.pack()
+    aw.tEntry.pack()
+    aW.pFrame.pack()
+    aw.pEntry.pack()
+    aW.dFrame.pack()
+    aw.dEntry.pack()
+    aW.kFrame.pack()
+    aW.cFrame.pack()
+    aw.cText.pack()
+    aW.okB.pack(side="right")  
+    aW.canB.pack(side="right")
 
 def pushed(event):
     event.widget["text"] = "pushed"
