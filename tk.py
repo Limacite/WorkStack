@@ -2,50 +2,45 @@
 import tkinter as tk
 
 class InputWindow():
-    def packWidget():
-        tFrame.pack()
-        tk.Entry(tFrame,textvariable=bList["t"]).pack()
-        pFrame.pack()
-        tk.Entry(pFrame,textvariable=bList["p"]).pack()
-        dFrame.pack()
-        tk.Entry(dFrame,textvariable=bList["d"]).pack()
-        kFrame.pack()
-        cFrame.pack()
-        tk.Entry(cFrame,textvariable=bList["c"]).pack(fill="both")
-        okB.pack(side="right")  
-        canB.pack(side="right")
-        
-    bList = {"t":"","p":"","d":"","k":"","f":"","c":""}
-    
-    #bList["t"] = tk.StringVar()
-    #bList["t"].set("")
-    bKist["p"] = tk.StringVar()
-    bList["p"].set("")
-    bList["k"] = tk.IntVar()
-    bList["k"].set(0)
-    bList["c"] = tk.StringVar()
-    bList["c"].set("")
-    
-    tFrame = tk.LabelFrame(pere,text="タイトル",relief="ridge",bd=2)
-    tEntry = k.Entry(tFrame,textvariable=bList["t"])
-    pFrame = tk.LabelFrame(pere,text="優先度",relief="ridge",bd=2)
-    pEntry = tk.Entry(pFrame,textvariable=bList["p"])
-    dFrame = tk.LabelFrame(pere,text="日時",relief="ridge",bd=2)
-    dEntry = tk.Entry(dFrame,textvariable=bList["d"])
-    kFrame = tk.LabelFrame(pere,text="種類",relief="ridge",bd=2)
-    kB0 = tk.Radiobutton(kFrame,text="仕事",value=0,variable=bList["k"])
-    kB1 = tk.Radiobutton(kFrame,text="趣味",value=1,variable=bList["k"])
-    cFrame = tk.LabelFrame(pere,text="メモ",relief="ridge",bd=2)
-    cText = tk.Text(cFrame,height="5",width="20").pack(fill="both")
-    
-    bottomFrame = tk.Frame(pere,bd=0,relief="ridge")
-    bottomFrame.pack(fill="both")
-    okB = tk.Button(bottomFrame,text="適用",command=lambda:saveTask(bList))
-    canB = tk.Button(bottomFrame,text="キャンセル",command=lambda:pere.destroy())
-    
-    #okB.pack(side="right")  
-    #canB.pack(side="right")
-    #packWidget()
+    def packWidget(self):
+        self.tFrame.pack()
+        self.tEntry.pack()
+        self.pFrame.pack()
+        self.pEntry.pack()
+        self.dFrame.pack()
+        self.dEntry.pack()
+        self.kFrame.pack()
+        self.cFrame.pack()
+        self.cText.pack(fill="both")
+        self.bottomFrame.pack(fill="both")
+        self.okB.pack(side="right")  
+        self.canB.pack(side="right")
+            
+    def __init__(self,pere):
+        self.pere = pere
+        self.bList = {"t":"","p":"","d":"","k":"","f":"","c":""}
+        self.bList["t"] = tk.StringVar()
+        self.bList["t"].set("")
+        self.bList["p"] = tk.StringVar()
+        self.bList["p"].set("")
+        self.bList["k"] = tk.IntVar()
+        self.bList["k"].set(0)
+        self.bList["c"] = tk.StringVar()
+        self.bList["c"].set("")
+        self.tFrame = tk.LabelFrame(self.pere,text="タイトル",relief="ridge",bd=2)
+        self.tEntry = tk.Entry(self.tFrame,textvariable=self.bList["t"])
+        self.pFrame = tk.LabelFrame(self.pere,text="優先度",relief="ridge",bd=2)
+        self.pEntry = tk.Entry(self.pFrame,textvariable=self.bList["p"])
+        self.dFrame = tk.LabelFrame(self.pere,text="日時",relief="ridge",bd=2)
+        self.dEntry = tk.Entry(self.dFrame,textvariable=self.bList["d"])
+        self.kFrame = tk.LabelFrame(self.pere,text="種類",relief="ridge",bd=2)
+        self.kB0 = tk.Radiobutton(self.kFrame,text="仕事",value=0,variable=self.bList["k"])
+        self.kB1 = tk.Radiobutton(self.kFrame,text="趣味",value=1,variable=self.bList["k"])
+        self.cFrame = tk.LabelFrame(self.pere,text="メモ",relief="ridge",bd=2)
+        self.cText = tk.Text(self.cFrame,height="5",width="20")
+        self.bottomFrame = tk.Frame(self.pere,bd=0,relief="ridge")
+        self.okB = tk.Button(self.bottomFrame,text="適用",command=lambda:saveTask(self.bList))
+        self.canB = tk.Button(self.bottomFrame,text="キャンセル",command=lambda:self.pere.destroy())
 
 def saveTask(bL,win):
     tsk = {"title":bL["t"].get(),"priority":0,"date":0,"kind":0,"favorit":0,"comment":"comment"}
@@ -57,18 +52,8 @@ def addTskWin(event):
     aTW = tk.Toplevel()
     aTW.title("タスクを追加")
     aW = InputWindow(aTW)
-    
-    aW.tFrame.pack()
-    aw.tEntry.pack()
-    aW.pFrame.pack()
-    aw.pEntry.pack()
-    aW.dFrame.pack()
-    aw.dEntry.pack()
-    aW.kFrame.pack()
-    aW.cFrame.pack()
-    aw.cText.pack()
-    aW.okB.pack(side="right")  
-    aW.canB.pack(side="right")
+    #aw.__init__(aTW)
+    aW.packWidget()
 
 def pushed(event):
     event.widget["text"] = "pushed"
