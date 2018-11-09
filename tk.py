@@ -39,11 +39,11 @@ class InputWindow():
         self.cFrame = tk.LabelFrame(self.pere,text="メモ",relief="ridge",bd=2)
         self.cText = tk.Text(self.cFrame,height="5",width="20")
         self.bottomFrame = tk.Frame(self.pere,bd=0,relief="ridge")
-        self.okB = tk.Button(self.bottomFrame,text="適用",command=lambda:saveTask(self.bList))
+        self.okB = tk.Button(self.bottomFrame,text="適用",command=lambda:saveTask(self.bList,pere))
         self.canB = tk.Button(self.bottomFrame,text="キャンセル",command=lambda:self.pere.destroy())
 
 def saveTask(bL,win):
-    tsk = {"title":bL["t"].get(),"priority":0,"date":0,"kind":0,"favorit":0,"comment":"comment"}
+    tsk = {"title":bL["t"].get(),"priority":bL["p"].get(),"date":0,"kind":bL["k"].get(),"favorit":0,"comment":bL["c"].get()}
     taskList.append(tsk)
     renewTsk(taskList)
     win.destroy()
