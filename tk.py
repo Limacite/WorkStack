@@ -15,11 +15,13 @@ def saveTask(bL,win):
     win.destroy()
 
 def addTskWin(event):
-    aTW = tk.Toplevel()
-    aTW.title("タスクを追加")
-    sw.saveTask = saveTask
-    aW = sw.InputWindow(aTW,dt.datetime.today())
-    aW.packWidget()
+    global aTW
+    if aTW is None or not aTW.winfo_exists(): 
+        aTW = tk.Toplevel()
+        aTW.title("タスクを追加")
+        sw.saveTask = saveTask
+        aW = sw.InputWindow(aTW,dt.datetime.today())
+        aW.packWidget()
 
 def pushed(event):
     event.widget["text"] = "pushed"
@@ -60,6 +62,7 @@ def renewTsk(tskL):
     
 taskList = []
 buTskL = []
+aTW = None
 
 #-------メインウィンドウ----------
 root = tk.Tk()
