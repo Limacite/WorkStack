@@ -17,6 +17,7 @@ def saveTask(bL,win):
 def addTskWin(event):
     aTW = tk.Toplevel()
     aTW.title("タスクを追加")
+    sw.saveTask = saveTask
     aW = sw.InputWindow(aTW,dt.datetime.today())
     aW.packWidget()
 
@@ -53,9 +54,9 @@ def frameClear(frm):
 
 def renewTsk(tskL):
     frameClear(tskFrame)
-    btnList = btnLGen(taskList)
+    btnList = btnLGen(tskL)
     cmdSet(btnList)
-    btnGen(btnList,taskList)    
+    btnGen(btnList,tskL)  
     
 taskList = []
 buTskL = []
