@@ -6,7 +6,7 @@ Created on Fri Nov  9 23:16:21 2018
 """
 import tkinter as tk
 
-def saveTask(self):
+def saveTask(bL,win):
     pass
 
 class InputWindow():
@@ -66,5 +66,6 @@ class InputWindow():
         self.cText = tk.Text(self.cFrame,height="5",width="20")
         self.bottomFrame = tk.Frame(self.pere,bd=0,relief="ridge")
         self.okB = tk.Button(self.bottomFrame,text="適用",command=lambda:saveTask(self.bList,pere))
+        #self.okB.bind("<1>",saveTsk(self.bList,pere))
         self.canB = tk.Button(self.bottomFrame,text="キャンセル",command=lambda:self.pere.destroy())
 
