@@ -61,32 +61,48 @@ def renewTsk(tskL):
     cmdSet(btnList)
     btnGen(btnList,tskL)  
     
+def tskSort(self):
+    if svSortV == menuBar.sortV:
+        pass
+    elif menuBar.sortV == "優先度":
+        taskList.sort(key= lambda x:x["priority"])
+        taskList.reverse()
+    else:
+        taskList.sort(key= lambda x:x["date"])
+    renewTsk(taskList)
+
 taskList = []
 buTskL = []
 subW = None
+svSortV = None
 
 #-------メインウィンドウ----------
 root = tk.Tk()
 root.title(u"Tasksack")
 root.geometry("300x400")
 
+#--------メニューバー-------------
+menuBar = sw.MnBar(root)
+menuBar.sortBtn.focus_set() #ウィンドウ生成時sortボタンにフォーカス
+#-------------------------------
+
 #--------上部----------------
 spFrame = tk.Frame(root,bd=0,relief="ridge")
 spFrame.pack(fill="x")
-sortBtn = tk.Button(spFrame,text="sort |▼")
+sortBtn = tk.Button(spFrame,text="to sort")
+sortBtn.bind("<1>",tskSort)
 sortBtn.pack(side="left")
-filtBtn = tk.Button(spFrame,text="filter |▼")
+filtBtn = tk.Button(spFrame,text="to filter")
 filtBtn.pack(side="left")
 addBtn = tk.Button(spFrame,text="+")
 addBtn.bind("<1>",addTskWin)
 addBtn.pack(side="right")
 #----------------------------
 
-sortBtn.focus_set() #ウィンドウ生成時sortボタンにフォーカス
-
 #---------タスクリスト-----------
 tskFrame = tk.Frame(root,bd=2,relief="ridge")
 tskFrame.pack(fill="both")
+
 #-------テスト用-----------
 taskBox = {"title":"title","priority":0,"date":"2018-11-3","kind":"仕事","favorit":1,"comment":"comment"}
 taskList.append(taskBox)
@@ -100,4 +116,4 @@ renewTsk(taskList)
 
 
 root.mainloop()
-#----------------------------
+#---------------------------
