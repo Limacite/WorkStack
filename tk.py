@@ -71,6 +71,14 @@ def tskSort(self):
         taskList.sort(key= lambda x:x["date"])
     renewTsk(taskList)
 
+def tskFilt(self):
+    if menuBar.filtV.get() == "すべて":
+        filtList = taskList
+    else:
+        filtList = [k for k in taskList if k["kind"] == menuBar.filtV.get()]
+    renewTsk(filtList)
+    pass
+
 taskList = []
 buTskL = []
 subW = None
@@ -93,6 +101,7 @@ sortBtn = tk.Button(spFrame,text="to sort")
 sortBtn.bind("<1>",tskSort)
 sortBtn.pack(side="left")
 filtBtn = tk.Button(spFrame,text="to filter")
+filtBtn.bind("<1>",tskFilt)
 filtBtn.pack(side="left")
 addBtn = tk.Button(spFrame,text="+")
 addBtn.bind("<1>",addTskWin)
