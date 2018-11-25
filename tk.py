@@ -24,21 +24,30 @@ def addTskWin(event):
         aW.packWidget()
         aW.tEntry.focus_set()
 
-def pushed(event):
-    event.widget["text"] = "pushed"
+def pushed(event,i):
+    global subW
+    if subW is None or not subW.winfo_exists():
+        subW = tk.Toplevel()
+        subW.title("タスクを編集")
+        sw.saveTask = saveTask
+        eW = sw.InputWindow(subW,dt.datetime.today(),btnTaskList[i])#ボタンに対応するタスクの情報を取りたい
+        eW.packWidget()
+        eW.tEntry.focus_set()
 
 def btnLGen(tskL):
     if len(tskL) != 0:
         btnText = tskL[0]["title"] + "\n" + "date:" + tskL[0]["date"]
         btn = tk.Button(tskFrame,text=btnText)
+        btnTaskList.append(tskL[0])
         return [btn] + btnLGen(tskL[1:])
     else:
         return []
 
-def cmdSet(btnL):
+def cmdSet(btnL,i):
     if len(btnL) != 0:
-        btnL[0].bind("<1>",pushed)
-        cmdSet(btnL[1:])
+        #eWGen = lambda:pushed(i)
+        #btnL[0].bind("<1>",eWGen)
+        cmdSet(btnL[1:],i+1)
 
 def btnGen(btnL,tskL):
     if len(btnL) != 0:
@@ -52,37 +61,43 @@ def btnGen(btnL,tskL):
 
 def frameClear(frm):
     widL = frm.pack_slaves()
+    print(widL)
     for l in widL:
         l.destroy()
+    print(widL)
 
 def renewTsk(tskL):
     frameClear(tskFrame)
+    btnTaskList = []
+    print(btnTaskList)
     btnList = btnLGen(tskL)
-    cmdSet(btnList)
+    cmdSet(btnList,0)
+    print(btnTaskList)
     btnGen(btnList,tskL)  
     
 def tskSort(self):
     if svSortV == menuBar.sortV:
         pass
     elif menuBar.sortV == "優先度":
-        taskList.sort(key= lambda x:x["priority"])
-        taskList.reverse()
+        btnTaskList.sort(key= lambda x:x["priority"])
+        btnTaskList.reverse()
     else:
-        taskList.sort(key= lambda x:x["date"])
-    renewTsk(taskList)
+        btnTaskList.sort(key= lambda x:x["date"])
+    renewTsk(btnTaskList)
 
 def tskFilt(self):
     if menuBar.filtV.get() == "すべて":
-        filtList = taskList
+        btnTaskList = taskList
     else:
-        filtList = [k for k in taskList if k["kind"] == menuBar.filtV.get()]
-    renewTsk(filtList)
+        btnTaskList = [k for k in taskList if k["kind"] == menuBar.filtV.get()]
+    renewTsk(btnTaskList)
     pass
 
 taskList = []
 buTskL = []
 subW = None
 svSortV = None
+btnTaskList = []
 
 #-------メインウィンドウ----------
 root = tk.Tk()
