@@ -12,6 +12,7 @@ def saveTask(bL,win):
 class InputWindow():
     kL = ("仕事","趣味")
 
+    #各ウィジェットの生成
     def packWidget(self):
         self.tFrame.pack()
         self.tEntry.pack()
@@ -35,24 +36,26 @@ class InputWindow():
             self.bList["title"] = tk.StringVar()
             self.bList["priority"] = tk.StringVar()
             self.bList["date"] = tk.StringVar()
-            self.bList["date"].set(toDay.strftime("%Y-%m-%d"))
             self.bList["kind"] = tk.StringVar()
-            self.bList["kind"].set("仕事")
             self.bList["comment"] = tk.StringVar()
+            self.bList["priority"].set(0)
+            self.bList["date"].set(toDay.strftime("%Y-%m-%d"))
+            self.bList["kind"].set("仕事")
         else:
             self.bList = tsk
             self.bList["title"] = tk.StringVar()
-            self.bList["title"].set(tsk["title"])
             self.bList["priority"] = tk.StringVar()
-            self.bList["priority"].set(tsk["priority"])
             self.bList["date"] = tk.StringVar()
+            self.bList["kind"] = tk.StringVar()
+            self.bList["comment"] = tk.StringVar()
+            self.bList["title"].set(tsk["title"])
+            self.bList["priority"].set(tsk["priority"])
             self.date = toDay.strftime("%Y-%m-%d")
             self.bList["date"].set(self.date)
-            self.bList["kind"] = tk.StringVar()
             self.bList["kind"].set(tsk["kind"])
-            self.bList["comment"] = tk.StringVar()
             self.bList["comment"].set(tsk["comment"])
         
+        #---------各ウィジェットの設定------
         self.tFrame = tk.LabelFrame(self.pere,text="タイトル",relief="ridge",bd=2)
         self.tEntry = tk.Entry(self.tFrame,textvariable=self.bList["title"])
         self.pFrame = tk.LabelFrame(self.pere,text="優先度",relief="ridge",bd=2)
@@ -66,6 +69,29 @@ class InputWindow():
         self.cText = tk.Text(self.cFrame,height="5",width="20")
         self.bottomFrame = tk.Frame(self.pere,bd=0,relief="ridge")
         self.okB = tk.Button(self.bottomFrame,text="適用",command=lambda:saveTask(self.bList,pere))
-        #self.okB.bind("<1>",saveTsk(self.bList,pere))
         self.canB = tk.Button(self.bottomFrame,text="キャンセル",command=lambda:self.pere.destroy())
+
+class MnBar():
+    kL = ("すべて","仕事","趣味")
+    
+    def __init__(self,pere):
+        self.sortV = tk.StringVar()
+        self.sortV.set("日付")
+        self.filtV = tk.StringVar()
+        self.filtV.set("すべて")
+        self.menubar = tk.Menu(pere)
+        pere.configure(menu=self.menubar)
+        
+        self.sortBtn = tk.Menu(self.menubar,tearoff=False)
+        self.filtBtn = tk.Menu(self.menubar,tearoff=False)
+        self.menubar.add_cascade(label="Sort",underline=0,menu=self.sortBtn)
+        self.menubar.add_cascade(label="filter",underline=0,menu=self.filtBtn)
+        
+        self.sortBtn.add_radiobutton(label="日付",variable=self.sortV,value="日付")
+        self.sortBtn.add_radiobutton(label="優先度",variable=self.sortV,value="優先度")
+        
+            
+        self.filtBtn.add_radiobutton(label = "仕事", variable = self.filtV, value = "仕事")
+        self.filtBtn.add_radiobutton(label = "趣味", variable = self.filtV, value = "趣味")
+        self.filtBtn.add_radiobutton(label = "すべて", variable = self.filtV, value = "すべて")
 
