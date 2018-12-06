@@ -9,7 +9,7 @@ def saveTask(bL,win):
     tsk = {"title":bL["title"].get(),
            "priority":bL["priority"].get(),
            "date":bL["date"].get(),
-           "kind":bL["kind"],
+           "kind":bL["kind"].get(),
            "favorit":0,
            "comment":bL["comment"].get()}
     taskList.append(tsk)
@@ -106,17 +106,12 @@ def renewTsk(tskL):
     frameClear(tskFrame)
     print("btnTaskList:",btnTaskList)
     btnTaskList = []
-    #print("tskL:",tskL)
     btnList = btnLGen(tskL)
-    #print("btnTaskList:",btnTaskList)
-    #print("btnList:",btnList)
     cmdSet(btnList)
-    #print(btnTaskList)
     btnGen(btnList,tskL)
 
 #---------------------------------------------
 taskList = []
-#buTskL = []
 subW = None
 svSortV = None
 btnTaskList = []
