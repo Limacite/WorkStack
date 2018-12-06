@@ -34,7 +34,7 @@ class InputWindow():
         if tsk == {}:
             self.bList = {}
             self.bList["title"] = tk.StringVar()
-            self.bList["priority"] = tk.StringVar()
+            self.bList["priority"] = tk.IntVar()
             self.bList["date"] = tk.StringVar()
             self.bList["kind"] = tk.StringVar()
             self.bList["comment"] = tk.StringVar()
@@ -44,7 +44,7 @@ class InputWindow():
         else:
             self.bList = tsk
             self.bList["title"] = tk.StringVar()
-            self.bList["priority"] = tk.StringVar()
+            self.bList["priority"] = tk.IntVar()
             self.bList["date"] = tk.StringVar()
             self.bList["kind"] = tk.StringVar()
             self.bList["comment"] = tk.StringVar()
