@@ -12,8 +12,8 @@ def saveTask(bL,win):
            "kind":bL["kind"].get(),
            "favorit":0,
            "comment":bL["comment"].get()}
-    taskList.append(tsk)
-    renewTsk(taskList)
+    gTaskList.append(tsk)
+    renewTsk(gTaskList)
     win.destroy()
 
 #event -> void
@@ -36,7 +36,7 @@ def pushed(i):
             eW = sw.InputWindow(subW,dt.datetime.today(),btnTaskList[i])#ボタンに対応するタスクの情報を取りたい
             eW.packWidget()
             eW.tEntry.focus_set()
-    pass
+    
 
 #[task] -> [button]
 #ボタンの生成&初期設定を行う
@@ -44,7 +44,7 @@ def btnLGen(tskL,i=0):
     if len(tskL) != 0:
         btnText = tskL[0]["title"] + "\n" + "date:" + tskL[0]["date"]
         btn = tk.Button(tskFrame,text=btnText)#,command=pushed(i))
-        #print(btnTaskList)
+        #print(btngTaskList)
         btnTaskList.append(tskL[0])
         return [btn] + btnLGen(tskL[1:],i+1)
     else:
@@ -96,9 +96,9 @@ def tskSort(self):
 # void -> I/O
 def tskFilt(self):
     if menuBar.filtV.get() == "すべて":
-        btnTaskList = taskList
+        btnTaskList = gTaskList
     else:
-        btnTaskList = [k for k in taskList if k["kind"] == menuBar.filtV.get()]
+        btnTaskList = [k for k in gTaskList if k["kind"] == menuBar.filtV.get()]
     renewTsk(btnTaskList)
     pass
 
@@ -114,7 +114,7 @@ def renewTsk(tskL):
     btnGen(btnList,tskL)
 
 #---------------------------------------------
-taskList = []
+gTaskList = []
 subW = None
 svSortV = None
 btnTaskList = []
@@ -152,12 +152,12 @@ tskFrame.pack(fill="both")
 
 #-------テスト用-----------
 taskBox = {"title":"title","priority":0,"date":"2018-11-3","kind":"仕事","favorit":1,"comment":"comment"}
-taskList.append(taskBox)
+gTaskList.append(taskBox)
 taskBox = {"title":"ponpon","priority":2,"date":"2018-2-22","kind":"趣味","favorit":0,"comment":"cmcmcmc"}
-taskList.append(taskBox)
+gTaskList.append(taskBox)
 #------------------------
 
-renewTsk(taskList)
+renewTsk(gTaskList)
 #----------------------------
 
 
