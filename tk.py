@@ -2,6 +2,7 @@
 import tkinter as tk
 import datetime as dt
 import subWindow as sw
+import jsonIO
 
 #[button] -> window -> I/O
 def saveTask(bL,win):
@@ -13,6 +14,7 @@ def saveTask(bL,win):
            "favorit":0,
            "comment":bL["comment"].get()}
     gTaskList.append(tsk)
+    jsonIO.saveJson(tsk)
     renewTsk(gTaskList)
     win.destroy()
 
@@ -114,12 +116,11 @@ def renewTsk(tskL):
     btnGen(btnList,tskL)
 
 #---------------------------------------------
-gTaskList = []
+gTaskList = jsonIO.inportJson()
 subW = None
 svSortV = None
 btnTaskList = []
 sw.saveTask = saveTask
-
 
 #-------メインウィンドウ----------
 root = tk.Tk()
@@ -149,13 +150,6 @@ addBtn.pack(side="right")
 #---------タスクリスト-----------
 tskFrame = tk.Frame(root,bd=2,relief="ridge")
 tskFrame.pack(fill="both")
-
-#-------テスト用-----------
-taskBox = {"title":"title","priority":0,"date":"2018-11-3","kind":"仕事","favorit":1,"comment":"comment"}
-gTaskList.append(taskBox)
-taskBox = {"title":"ponpon","priority":2,"date":"2018-2-22","kind":"趣味","favorit":0,"comment":"cmcmcmc"}
-gTaskList.append(taskBox)
-#------------------------
 
 renewTsk(gTaskList)
 #----------------------------
