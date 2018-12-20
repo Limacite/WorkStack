@@ -7,9 +7,10 @@ Created on Thu Dec 20 09:49:10 2018
 
 import json
 import glob
+import uuid
 
-def saveJson(filename,task):
-    filename = "./jsonFiles/" + str(filename)
+def saveJson(task):
+    filename = "./jsonFiles/" + str(uuid.uuid4()) + ".json"
     with open(filename,"w") as file:
         json.dump(task,file)
         
@@ -23,7 +24,7 @@ def inportJson():
     
     return taskList
 
-
+"""
 def main():
     taskList = inportJson()
     print(taskList)
@@ -40,9 +41,9 @@ def main():
     print("comment:")
     com = input()
     task = {"title":title,"priority":priority,"date":date,"kind":kind,"favorit":fav,"comment":com}
-    saveJson("test.json",task)
+    saveJson(task)
     print("complete")
     
 main()
-    
+""" 
     
