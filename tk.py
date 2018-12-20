@@ -7,7 +7,7 @@ import subWindow as sw
 def saveTask(bL,win):
     #dict tsk
     tsk = {"title":bL["title"].get(),
-           "priority":bL["priority"].get(),
+            "priority":bL["priority"].get(),
            "date":bL["date"].get(),
            "kind":bL["kind"].get(),
            "favorit":0,
@@ -27,24 +27,26 @@ def addTskWin(event):
         aW.tEntry.focus_set()
 
 #event -> int -> void
-def pushed(event,i):
-    global subW
-    if subW is None or not subW.winfo_exists():
-        subW = tk.Toplevel()
-        subW.title("タスクを編集")
-        eW = sw.InputWindow(subW,dt.datetime.today(),btnTaskList[i])#ボタンに対応するタスクの情報を取りたい
-        eW.packWidget()
-        eW.tEntry.focus_set()
+def pushed(i):
+    def x():
+        global subW
+        if subW is None or not subW.winfo_exists():
+            subW = tk.Toplevel()
+            subW.title("タスクを編集")
+            eW = sw.InputWindow(subW,dt.datetime.today(),btnTaskList[i])#ボタンに対応するタスクの情報を取りたい
+            eW.packWidget()
+            eW.tEntry.focus_set()
+    pass
 
 #[task] -> [button]
 #ボタンの生成&初期設定を行う
-def btnLGen(tskL):
+def btnLGen(tskL,i=0):
     if len(tskL) != 0:
         btnText = tskL[0]["title"] + "\n" + "date:" + tskL[0]["date"]
-        btn = tk.Button(tskFrame,text=btnText)
+        btn = tk.Button(tskFrame,text=btnText)#,command=pushed(i))
         #print(btnTaskList)
         btnTaskList.append(tskL[0])
-        return [btn] + btnLGen(tskL[1:])
+        return [btn] + btnLGen(tskL[1:],i+1)
     else:
         print("btnLGen END")
         return []
@@ -52,8 +54,8 @@ def btnLGen(tskL):
 #buttn -> int -> void
 def cmdSet(btnL,i=0):
     if len(btnL) != 0:
-        #eWGen = lambda:pushed(i)
-        #btnL[0].bind("<1>",eWGen)
+        #eWGen = lambda i:pushed(i)
+        btnL[0].bind("<1>",lambda i:pushed(i))
         cmdSet(btnL[1:],i+1)
     else:
         pass
@@ -107,6 +109,7 @@ def renewTsk(tskL):
     print("btnTaskList:",btnTaskList)
     btnTaskList = []
     btnList = btnLGen(tskL)
+    print("btnList:",btnList)
     cmdSet(btnList)
     btnGen(btnList,tskL)
 
