@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov  9 23:16:21 2018
-
-@author: ic151215
 """
+
 import tkinter as tk
 
 def saveTask(bL,win):
