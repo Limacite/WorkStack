@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Dec 20 09:49:10 2018
-
-@author: ic151215
 """
 
 import json
@@ -23,27 +21,4 @@ def inportJson():
         x.close()
     
     return taskList
-
-"""
-def main():
-    taskList = inportJson()
-    print(taskList)
-    print("title:")
-    title = input()
-    print("priority:")
-    priority = input()
-    print("date:")
-    date = input()
-    print("kind:")
-    kind = input()
-    print("favorit:")
-    fav = input()
-    print("comment:")
-    com = input()
-    task = {"title":title,"priority":priority,"date":date,"kind":kind,"favorit":fav,"comment":com}
-    saveJson(task)
-    print("complete")
-    
-main()
-""" 
     
